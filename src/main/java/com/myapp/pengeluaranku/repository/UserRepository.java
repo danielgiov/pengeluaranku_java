@@ -11,9 +11,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User>{
-User findByUuid(String uuid);
 
-User findByEmail(String email);
+    User findByUuid(String uuid);
 
-List<User> findByIsDeleteIsNull();
+    User findByName(String name);
+
+    User findByEmail(String email);
+
+    User findByAddress(String address);
+
+    User findByPhone(String Phone);
+
+
+    List<User> findByIsDeleteIsNull();
 }

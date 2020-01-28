@@ -14,5 +14,11 @@ public class UserReqVO{
     @NotBlank(message = "Email can't be empty")
     private String email;
     public UserReqVO(){};
+    public UserReqVO(String name, String email, String address,String phone){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+}
 
 }
