@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 
 import com.myapp.pengeluaranku.domain.User;
 import com.myapp.pengeluaranku.enums.StatusCode;
-import com.myapp.pengeluaranku.exception.PengeluarankuException;
+import com.myapp.pengeluaranku.exception.UserException;
 import com.myapp.pengeluaranku.mapper.UserMapper;
 import com.myapp.pengeluaranku.repository.UserRepository;
 import com.myapp.pengeluaranku.util.ValidationUtil;
@@ -38,7 +38,7 @@ UserMapper userMapper;
 @Transactional
 public String add(UserReqVO vo){
     String message = userValidator.validateAdd(vo);
-    if(message!=null) throw new PengeluarankuException(message, HttpStatus.BAD_REQUEST, StatusCode.ERROR);
+    if(message!=null) throw new UserException(message, HttpStatus.BAD_REQUEST, StatusCode.ERROR);
     User model = new User();
     model.setCreatedBy("Daniel");
     model.setName(vo.getName());
@@ -81,12 +81,12 @@ public List<String> getAll(){
 
 public String delete(String uuid) {
     if(ValidationUtil.isEmptyOrNull(uuid)){
-        throw new PengeluarankuException("Uuid can't be empty", HttpStatus.BAD_REQUEST, StatusCode.ERROR);
+        throw new UserException("Uuid can't be empty", HttpStatus.BAD_REQUEST, StatusCode.ERROR);
     }
     else{
         User user = userRepository.findByUuid(uuid);
         if(user == null){
-            throw new PengeluarankuException("Pengeluaran not found", HttpStatus.BAD_REQUEST, StatusCode.ERROR);
+            throw new UserException("Pengeluaran not found", HttpStatus.BAD_REQUEST, StatusCode.ERROR);
         }
         userRepository.delete(user);
     }

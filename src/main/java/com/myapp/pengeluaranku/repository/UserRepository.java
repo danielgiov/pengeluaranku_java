@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
 
     List<User> findByIsDeleteIsNull();
+
+    //List<User> findlistByEmail(String email);
 }

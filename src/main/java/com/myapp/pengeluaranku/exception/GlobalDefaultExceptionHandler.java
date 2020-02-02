@@ -64,8 +64,39 @@ public class GlobalDefaultExceptionHandler {
         return new ResponseEntity<>(restResponseVO, status);
     }
 
+    
+
     @ExceptionHandler(value = {PengeluarankuException.class })
     public ResponseEntity<?> defaultErrorHandler(HttpServletRequest req, PengeluarankuException e) {
+
+        log.error(String.format("%s : Caught in Global Exception Handler for req: %s",
+                e.getLocalizedMessage(), req.getRequestURL()));
+        log.error("TRANSACTION EXCEPTION CAUSE : ", e);
+
+        HttpStatus status;
+        if(!StringUtils.isEmpty(e.getStatus())){
+            status = e.getStatus();
+        } else {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        StatusCode code;
+        if(!StringUtils.isEmpty(e.getCode())){
+            code = e.getCode();
+        } else {
+            code = StatusCode.ERROR;
+        }
+
+        ResultVO restResponseVO = new ResultVO();
+        restResponseVO.setResults(e.getMessage());
+        restResponseVO.setMessage(code.name());
+        restResponseVO.setStatus(status.value());
+
+        return new ResponseEntity<>(restResponseVO, status);
+    }
+
+    @ExceptionHandler(value = {UserException.class })
+    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest req, UserException e) {
 
         log.error(String.format("%s : Caught in Global Exception Handler for req: %s",
                 e.getLocalizedMessage(), req.getRequestURL()));
